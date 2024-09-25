@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtfu4jl6avr2l"]
+[gd_scene load_steps=8 format=3 uid="uid://dtfu4jl6avr2l"]
 
 [ext_resource type="Script" path="res://character_body_2d.gd" id="1_qefdt"]
 [ext_resource type="Texture2D" uid="uid://b7k0y3gxl6akr" path="res://asset/download.png" id="2_p6lex"]
 [ext_resource type="Script" path="res://area_2d.gd" id="3_ckjyh"]
 [ext_resource type="Texture2D" uid="uid://c735obdxxumsx" path="res://asset/Glock-pistol.webp" id="3_lqaw2"]
+[ext_resource type="Texture2D" uid="uid://c2itggysghttg" path="res://asset/world-map-pro.jpg" id="5_wncks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6t"]
 size = Vector2(86.5, 76)
@@ -13,36 +14,49 @@ size = Vector2(80, 45)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="CharacterBody2D" type="Area2D" parent="."]
+[node name="character" type="Area2D" parent="."]
 script = ExtResource("1_qefdt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(76, 75)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="character"]
 shape = SubResource("RectangleShape2D_ppo6t")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(77, 76)
+[node name="Green square" type="Sprite2D" parent="character"]
+position = Vector2(-5.96046e-08, 4.54747e-13)
 scale = Vector2(0.335556, 0.335556)
 texture = ExtResource("2_p6lex")
 
-[node name="Sprite2D2" type="Sprite2D" parent="CharacterBody2D"]
-
-[node name="Sprite2D3" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(76, 75)
+[node name="gun" type="Sprite2D" parent="character"]
+position = Vector2(1.52588e-05, 4.76837e-07)
+rotation = 3.12109
 scale = Vector2(0.025625, 0.0205922)
 texture = ExtResource("3_lqaw2")
 offset = Vector2(-2341.46, -825.557)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="character"]
+
+[node name="Dash_cooldown" type="Timer" parent="character"]
+wait_time = 0.5
+one_shot = true
+
+[node name="pickup_glock" type="Area2D" parent="."]
 script = ExtResource("3_ckjyh")
 
-[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+[node name="Sprite2D" type="Sprite2D" parent="pickup_glock"]
 position = Vector2(409, 197)
 scale = Vector2(0.0496875, 0.0411843)
 texture = ExtResource("3_lqaw2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pickup_glock"]
 position = Vector2(410, 196)
 shape = SubResource("RectangleShape2D_lid3y")
 
-[connection signal="area_entered" from="Area2D" to="CharacterBody2D" method="_on_area_2d_area_entered"]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(520, -488)
+texture = ExtResource("5_wncks")
+
+[connection signal="timeout" from="character/Dash_cooldown" to="character" method="_on_dash_cooldown_timeout"]
+[connection signal="area_entered" from="pickup_glock" to="character" method="_on_area_2d_area_entered"]
