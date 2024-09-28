@@ -1,6 +1,6 @@
 extends Area2D
 
-
+@export var weapon: Weapon
 var max_speed := 600.0
 var normal_speed := 600
 var dash_speed := 1800
@@ -20,9 +20,11 @@ func _process(delta: float) -> void:
 	if direction.length() > 0.0:
 		direction = direction.normalized()
 	#to make the movement smoother
-func _physics_process(delta: float) -> void:
-	look_at(get_global_mouse_position())
+
 	#make so player is pointing at mouse
+func _input(event):
+	if event.is_action_pressed("weapon_fire"):
+		weapon.fire()
 
 
 func _on_dash_cooldown_timeout() -> void:

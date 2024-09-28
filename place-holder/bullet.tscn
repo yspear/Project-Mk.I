@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdrd4ibexkr0f"]
+
+[ext_resource type="Script" path="res://rigid_body_2d.gd" id="1_k2db6"]
+[ext_resource type="Texture2D" uid="uid://c735obdxxumsx" path="res://asset/Glock-pistol.webp" id="2_cnh6v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5rale"]
+size = Vector2(4, 4)
+
+[node name="bullet" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+script = ExtResource("1_k2db6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("RectangleShape2D_5rale")
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+scale = Vector2(0.00249999, 0.00422969)
+texture = ExtResource("2_cnh6v")
