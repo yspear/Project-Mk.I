@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdrd4ibexkr0f"]
+
+[ext_resource type="Script" path="res://Bullet.gd" id="1_k2db6"]
+[ext_resource type="Texture2D" uid="uid://7j2kfjrt2esm" path="res://asset/bullet-firearm-ammunition-clip-art-bullets-modified.png" id="2_ue8ot"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t8r8j"]
+radius = 24.0
+height = 112.0
+
+[node name="bullet" type="Node2D"]
+
+[node name="Bullet_area_2D" type="Area2D" parent="."]
+script = ExtResource("1_k2db6")
+
+[node name="Sprite2D" type="Sprite2D" parent="Bullet_area_2D"]
+position = Vector2(1.90735e-06, 0)
+scale = Vector2(0.142109, 0.139427)
+texture = ExtResource("2_ue8ot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet_area_2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t8r8j")
+
+[connection signal="body_entered" from="Bullet_area_2D" to="Bullet_area_2D" method="_on_body_entered"]

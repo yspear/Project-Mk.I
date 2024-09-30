@@ -1,0 +1,128 @@
+[gd_scene load_steps=15 format=3 uid="uid://dtfu4jl6avr2l"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_qefdt"]
+[ext_resource type="Texture2D" uid="uid://b7k0y3gxl6akr" path="res://asset/download.png" id="2_p6lex"]
+[ext_resource type="Script" path="res://ray_cast_2d.gd" id="3_0amjq"]
+[ext_resource type="Script" path="res://Bullet_area_2d.gd" id="3_ckjyh"]
+[ext_resource type="Script" path="res://glock.gd" id="4_qsu6a"]
+[ext_resource type="Texture2D" uid="uid://dtdmxfkd51ovy" path="res://asset/prototype_512x512_blue1.png" id="5_6e8b3"]
+[ext_resource type="Script" path="res://gun.gd" id="5_6en21"]
+[ext_resource type="Texture2D" uid="uid://ltdkos76i7w8" path="res://asset/Glock-pistol-modified.png" id="5_yim75"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6t"]
+size = Vector2(86.5, 76)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lid3y"]
+size = Vector2(80, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_40ssw"]
+size = Vector2(3039.5, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xy7s7"]
+size = Vector2(3043, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6df1i"]
+size = Vector2(12.5, 3423)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_38yc3"]
+size = Vector2(16, 3421)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="character" type="Area2D" parent="."]
+script = ExtResource("1_qefdt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="character"]
+shape = SubResource("RectangleShape2D_ppo6t")
+
+[node name="Player" type="Sprite2D" parent="character"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(-5.96046e-08, 4.54747e-13)
+scale = Vector2(0.335556, 0.335556)
+texture = ExtResource("2_p6lex")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="character/Player"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="RayCast2D" type="RayCast2D" parent="character/Player"]
+target_position = Vector2(56, 0)
+script = ExtResource("3_0amjq")
+
+[node name="Glock" type="Node2D" parent="character/Player/RayCast2D"]
+position = Vector2(1.77629e-07, -1.3552e-12)
+script = ExtResource("4_qsu6a")
+
+[node name="gun" type="Sprite2D" parent="character/Player/RayCast2D/Glock"]
+position = Vector2(0, 9.53674e-07)
+rotation = 3.12109
+scale = Vector2(0.0677004, 0.049537)
+texture = ExtResource("5_yim75")
+offset = Vector2(-2341.46, -825.557)
+script = ExtResource("5_6en21")
+
+[node name="fire_rate" type="Timer" parent="character/Player/RayCast2D/Glock/gun"]
+
+[node name="ShootingPoint" type="Marker2D" parent="character/Player/RayCast2D/Glock/gun"]
+unique_name_in_owner = true
+position = Vector2(-2802.21, -1041.29)
+
+[node name="Camera2D" type="Camera2D" parent="character"]
+position = Vector2(-5.96046e-08, 4.54747e-13)
+scale = Vector2(0.335556, 0.335556)
+limit_left = -1415
+limit_top = -1593
+limit_right = 1620
+limit_bottom = 1833
+editor_draw_limits = true
+
+[node name="Dash_cooldown" type="Timer" parent="character"]
+wait_time = 0.5
+one_shot = true
+
+[node name="pickup_glock" type="Area2D" parent="."]
+script = ExtResource("3_ckjyh")
+
+[node name="Glock_pickup" type="Sprite2D" parent="pickup_glock"]
+position = Vector2(409, 197)
+scale = Vector2(0.0496875, 0.0411843)
+texture = ExtResource("5_yim75")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pickup_glock"]
+position = Vector2(410, 196)
+shape = SubResource("RectangleShape2D_lid3y")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Map_image" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(112, 120)
+scale = Vector2(5.93407, 6.69341)
+texture = ExtResource("5_6e8b3")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Inviswall" type="CollisionShape2D" parent="StaticBody2D"]
+visible = false
+position = Vector2(104.25, 1840)
+shape = SubResource("RectangleShape2D_40ssw")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+visible = false
+position = Vector2(102.5, -1600)
+shape = SubResource("RectangleShape2D_xy7s7")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+visible = false
+position = Vector2(1625.75, 120.5)
+shape = SubResource("RectangleShape2D_6df1i")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+visible = false
+position = Vector2(-1424, 121.5)
+shape = SubResource("RectangleShape2D_38yc3")
+
+[connection signal="timeout" from="character/Player/RayCast2D/Glock/gun/fire_rate" to="character/Player/RayCast2D/Glock/gun" method="_on_fire_rate_timeout"]
+[connection signal="timeout" from="character/Dash_cooldown" to="character" method="_on_dash_cooldown_timeout"]
+[connection signal="area_entered" from="pickup_glock" to="character" method="_on_area_2d_area_entered"]
