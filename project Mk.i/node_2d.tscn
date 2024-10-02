@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dtfu4jl6avr2l"]
+[gd_scene load_steps=16 format=3 uid="uid://dtfu4jl6avr2l"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_qefdt"]
 [ext_resource type="Texture2D" uid="uid://b7k0y3gxl6akr" path="res://asset/download.png" id="2_p6lex"]
@@ -6,11 +6,15 @@
 [ext_resource type="Script" path="res://Bullet_area_2d.gd" id="3_ckjyh"]
 [ext_resource type="Script" path="res://glock.gd" id="4_qsu6a"]
 [ext_resource type="Texture2D" uid="uid://dtdmxfkd51ovy" path="res://asset/prototype_512x512_blue1.png" id="5_6e8b3"]
-[ext_resource type="Script" path="res://gun.gd" id="5_6en21"]
+[ext_resource type="PackedScene" uid="uid://cdrd4ibexkr0f" path="res://bullet.tscn" id="5_67rd7"]
 [ext_resource type="Texture2D" uid="uid://ltdkos76i7w8" path="res://asset/Glock-pistol-modified.png" id="5_yim75"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6t"]
 size = Vector2(86.5, 76)
+
+[sub_resource type="GDScript" id="GDScript_kdk8r"]
+script/source = "extends Sprite2D
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lid3y"]
 size = Vector2(80, 45)
@@ -52,6 +56,7 @@ script = ExtResource("3_0amjq")
 [node name="Glock" type="Node2D" parent="character/Player/RayCast2D"]
 position = Vector2(1.77629e-07, -1.3552e-12)
 script = ExtResource("4_qsu6a")
+BULLET_SCENE = ExtResource("5_67rd7")
 
 [node name="gun" type="Sprite2D" parent="character/Player/RayCast2D/Glock"]
 position = Vector2(0, 9.53674e-07)
@@ -59,13 +64,9 @@ rotation = 3.12109
 scale = Vector2(0.0677004, 0.049537)
 texture = ExtResource("5_yim75")
 offset = Vector2(-2341.46, -825.557)
-script = ExtResource("5_6en21")
+script = SubResource("GDScript_kdk8r")
 
 [node name="fire_rate" type="Timer" parent="character/Player/RayCast2D/Glock/gun"]
-
-[node name="ShootingPoint" type="Marker2D" parent="character/Player/RayCast2D/Glock/gun"]
-unique_name_in_owner = true
-position = Vector2(-2802.21, -1041.29)
 
 [node name="Camera2D" type="Camera2D" parent="character"]
 position = Vector2(-5.96046e-08, 4.54747e-13)

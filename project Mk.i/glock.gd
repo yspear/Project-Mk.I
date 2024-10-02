@@ -3,6 +3,7 @@ class_name Weapon
 enum STATES { READY, FIRING, RELOADING }
 
 @export var BULLET_SCENE: PackedScene
+var target = get_global_mouse_position
 
 @onready var fire_rate = $gun/fire_rate
 
@@ -12,12 +13,15 @@ func change_state(new_state: STATES):
 	state = new_state
 	
 func fire():
-	const BULLET = preload("res://bullet.tscn")
-	var new_bullet = BULLET.instantiate()
-	new_bullet.global_position = %ShootingPoint.global_position
-	new_bullet.global_rotation = %ShootingPoint.global_rotation
-	%ShootingPoint.add_child(new_bullet)
+	if state == STATES.FIRING || state == STATES.RELOADING:
+		return
+		
+	change_state(STATES.FIRING)
 	
+	var bullet = BULLET_SCENE.instantiate()
+	var direction_to_mouse = bullet.global_position.direction_to(target).normalized()
 
-func _on_fire_rate_timeout() -> void:
-	fire()
+	get_tree().root.add_child(bullet)
+	
+	change_state(STATES.RELOADING)
+	fire_rate.start()
