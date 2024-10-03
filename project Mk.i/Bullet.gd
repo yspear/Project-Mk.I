@@ -1,15 +1,16 @@
 extends Area2D
 
 
-var speed = 4000
+var speed = 1000
 var travelled_distance = 0
+var direction: Vector2 = Vector2()
 func _physics_process(delta: float) -> void:
-	const Speed = 4000
-	const Range = 6000
-	var direction = Vector2.RIGHT.rotated(rotation)
+	const Speed = 1000
+	const bullet_range = 800
+	position += direction.normalized() * speed * delta
 	position += direction * Speed * delta
 	travelled_distance += Speed * delta
-	if travelled_distance > Range:
+	if travelled_distance > bullet_range:
 		queue_free()
 	
 	

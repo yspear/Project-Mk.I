@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://degq8soij3cq"]
+
+[ext_resource type="Script" path="res://dummy_box.gd" id="1_dydtq"]
+[ext_resource type="Texture2D" uid="uid://bdfj7atrcq852" path="res://asset/up16_1_-min.jpg" id="1_pwyu3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_72un8"]
+size = Vector2(34, 26)
+
+[node name="Dummy_box" type="CharacterBody2D"]
+script = ExtResource("1_dydtq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0633333, 0.05)
+texture = ExtResource("1_pwyu3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_72un8")

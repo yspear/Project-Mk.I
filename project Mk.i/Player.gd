@@ -24,7 +24,9 @@ func _process(delta: float) -> void:
 
 func _input(event) -> void:
 	if event.is_action_pressed("weapon_fire"):
-		gun.fire()
+		if gun:
+			gun.fire()  
+			print("fire")
 	
 
 

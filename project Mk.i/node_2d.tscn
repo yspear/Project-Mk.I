@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtfu4jl6avr2l"]
+[gd_scene load_steps=17 format=3 uid="uid://dtfu4jl6avr2l"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_qefdt"]
 [ext_resource type="Texture2D" uid="uid://b7k0y3gxl6akr" path="res://asset/download.png" id="2_p6lex"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dtdmxfkd51ovy" path="res://asset/prototype_512x512_blue1.png" id="5_6e8b3"]
 [ext_resource type="PackedScene" uid="uid://cdrd4ibexkr0f" path="res://bullet.tscn" id="5_67rd7"]
 [ext_resource type="Texture2D" uid="uid://ltdkos76i7w8" path="res://asset/Glock-pistol-modified.png" id="5_yim75"]
+[ext_resource type="PackedScene" uid="uid://degq8soij3cq" path="res://dummy_box.tscn" id="7_djnoi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6t"]
 size = Vector2(86.5, 76)
@@ -67,6 +68,10 @@ offset = Vector2(-2341.46, -825.557)
 script = SubResource("GDScript_kdk8r")
 
 [node name="fire_rate" type="Timer" parent="character/Player/RayCast2D/Glock/gun"]
+wait_time = 0.5
+
+[node name="Dummy_box" parent="character/Player/RayCast2D/Glock/gun" instance=ExtResource("7_djnoi")]
+position = Vector2(16410.6, 9606.08)
 
 [node name="Camera2D" type="Camera2D" parent="character"]
 position = Vector2(-5.96046e-08, 4.54747e-13)
@@ -102,6 +107,9 @@ position = Vector2(112, 120)
 scale = Vector2(5.93407, 6.69341)
 texture = ExtResource("5_6e8b3")
 
+[node name="Dummy_box" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("7_djnoi")]
+position = Vector2(-288, -72)
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="Inviswall" type="CollisionShape2D" parent="StaticBody2D"]
@@ -124,6 +132,7 @@ visible = false
 position = Vector2(-1424, 121.5)
 shape = SubResource("RectangleShape2D_38yc3")
 
+[connection signal="timeout" from="character/Player/RayCast2D/Glock/gun/fire_rate" to="character/Player/RayCast2D/Glock" method="_on_fire_rate_timeout"]
 [connection signal="timeout" from="character/Player/RayCast2D/Glock/gun/fire_rate" to="character/Player/RayCast2D/Glock/gun" method="_on_fire_rate_timeout"]
 [connection signal="timeout" from="character/Dash_cooldown" to="character" method="_on_dash_cooldown_timeout"]
 [connection signal="area_entered" from="pickup_glock" to="character" method="_on_area_2d_area_entered"]
